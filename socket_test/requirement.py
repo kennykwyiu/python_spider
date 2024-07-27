@@ -11,7 +11,17 @@ function :
 5. get the online user
 """
 
+login_template = {
+    "action": "login",
+    "user": "bobby1"
+}
 
+send_data_temple = {
+    "action": "send_msg",
+    "to": "user",
+    "from": "user",
+    "data": "I am Bobby"
+}
 
 offline_msg_template = {
     "action": "history_msg",

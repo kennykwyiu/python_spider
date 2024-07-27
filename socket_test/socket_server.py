@@ -1,18 +1,25 @@
 import socket
+import threading
+
 server = socket.socket()
 server.bind(('0.0.0.0', 8000))
 server.listen()
 
-sock, addr = server.accept()
-data = ""
+
+def handle_sock(sock, addr):
+    while True:
+        tmp_data = sock.recv(1024)
+        print(tmp_data.decode("utf8"))
+        input_data = input()
+        sock.send(input_data.encode("utf8"))
+
+
 while True:
-    sock.send("welcome to server!".encode("utf8"))
+    sock, addr = server.accept()
 
-    tmp_data = sock.recv(1024)
-    print(tmp_data.decode("utf8"))
-    input_data = input()
-    sock.send(input_data.encode("utf8"))
-
+    client_thread = threading.Thread(target=handle_sock, args=(sock, addr))
+    client_thread.start()
+    data = ""
 
     # if tmp_data:
     #     data += tmp_data.decode("utf8")

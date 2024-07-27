@@ -4,8 +4,8 @@ client.connect(('192.168.68.64', 8000))
 
 # client.send(b"bobby")
 
-server_data = client.recv(1024)
-print("server response: {}".format(server_data.decode("utf8")))
+# server_data = client.recv(1024)
+# print("server response: {}".format(server_data.decode("utf8")))
 
 while True:
     input_data = input()

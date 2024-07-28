@@ -7,7 +7,7 @@ client.connect(('127.0.0.1', 8000))
 
 user = "Bobby1"
 
-#1. login
+# 1. login
 login_template = {
     "action": "login",
     "user": "Bobby1"
@@ -17,9 +17,12 @@ client.send(json.dumps(login_template).encode("utf8"))
 res = client.recv(1024)
 print(res.decode("utf8"))
 
-#2. get online user
+# 2. get online user
 
 get_user_template = {
     "action": "list_user",
 }
 
+client.send(json.dumps(login_template).encode("utf8"))
+res = client.recv(1024)
+print("current online users: {}".format(res.decode("utf8")))

@@ -39,14 +39,24 @@ client.send(json.dumps(login_template).encode("utf8"))
 res = client.recv(1024)
 print("historical message: {}".format(res.decode("utf8")))
 
+exit = False
 def handle_receive():
     while True:
-        res = client.recv(1024)
-        res = res.decode("utf8")
-        res_json = json.loads(res)
-        msg = res_json["data"]
-        from_user = res_json["from"]
-        print("msg received from ({}): {}".format(from_user, msg))
+        if not exit:
+            try:
+                res = client.recv(1024)
+            except:
+                break
+            res = res.decode("utf8")
+            try:
+                res_json = json.loads(res)
+                msg = res_json["data"]
+                from_user = res_json["from"]
+                print("msg received from ({}): {}".format(from_user, msg))
+            except:
+                print(res)
+        else:
+            break
 
 def handle_send():
     while True:
@@ -70,6 +80,7 @@ def handle_send():
                 "user": user
             }
             client.send(json.dumps(exit_template).encode("utf8"))
+            exit = True
             client.close()
             break
         elif op_type == "3":
@@ -80,6 +91,8 @@ def handle_send():
 
 if __name__ == '__main__':
     send_thread = threading.Thread(target=handle_send)
+    receive_thread = threading.Thread(target=handle_receive)
     send_thread.start()
+    receive_thread.start()
 
 

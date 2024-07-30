@@ -24,7 +24,7 @@ get_user_template = {
     "action": "list_user",
 }
 
-client.send(json.dumps(login_template).encode("utf8"))
+client.send(json.dumps(get_user_template).encode("utf8"))
 res = client.recv(1024)
 print("current online users: {}".format(res.decode("utf8")))
 
@@ -35,7 +35,7 @@ offline_msg_template = {
     "user": user,
 }
 
-client.send(json.dumps(login_template).encode("utf8"))
+client.send(json.dumps(offline_msg_template).encode("utf8"))
 res = client.recv(1024)
 print("historical message: {}".format(res.decode("utf8")))
 
@@ -52,8 +52,10 @@ def handle_receive():
                 res_json = json.loads(res)
                 msg = res_json["data"]
                 from_user = res_json["from"]
+                print("")
                 print("msg received from ({}): {}".format(from_user, msg))
             except:
+                print("")
                 print(res)
         else:
             break

@@ -39,7 +39,7 @@ def handle_sock(sock, addr):
 
             # if json_data["user"] in action:
             #     sock.send(json.dumps(user_msgs[json_data["user"]]).encode("utf8"))
-        elif action == "send":
+        elif action == "send_msg":
             if json_data["to"] in online_users:
                 online_users[json_data["to"]].send(json.dumps(json_data).encode("utf8"))
                 user_msgs[json_data["to"]].append(json_data)

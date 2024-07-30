@@ -39,6 +39,15 @@ client.send(json.dumps(login_template).encode("utf8"))
 res = client.recv(1024)
 print("historical message: {}".format(res.decode("utf8")))
 
+def handle_receive():
+    while True:
+        res = client.recv(1024)
+        res = res.decode("utf8")
+        res_json = json.loads(res)
+        msg = res_json["data"]
+        from_user = res_json["from"]
+        print("msg received from ({}): {}".format(from_user, msg))
+
 def handle_send():
     while True:
         op_type = input("pls input your action: 1. send message, 2. exit, 3. get online user")
@@ -67,9 +76,10 @@ def handle_send():
             get_user_template = {
                 "action": "list_user",
             }
-            client.send(json.dumps(login_template).encode("utf8"))
+            client.send(json.dumps(get_user_template).encode("utf8"))
 
 if __name__ == '__main__':
-
+    send_thread = threading.Thread(target=handle_send)
+    send_thread.start()
 
 

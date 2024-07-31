@@ -6,7 +6,7 @@ import threading
 client = socket.socket()
 client.connect(('127.0.0.1', 8000))
 
-user = "Bobby1"
+user = "Bobby2"
 
 # 1. login
 login_template = {
